@@ -47,15 +47,20 @@ window.onload = function () {
   const chatBox = document.getElementById("chat-box");
   const sendBtn = document.getElementById("send-btn");
   const userInput = document.getElementById("user-input");
-  const backendURL = "https://gemini-backend-58wg.onrender.com/chat"; // your backend
+  const backendURL = "https://gemini-backend-58wg.onrender.com/chat";
 
-  // ---- Event Listeners ----
+  // 👋 Custom user name
+  const userName = "Priyankar"; // TODO: replace with dynamic name later
+
+  // Greet on load
+  appendMessage("bot", `👋 Welcome back, ${userName}! The archives await your curiosity.`);
+
+  // Send listeners
   sendBtn.addEventListener("click", sendMessage);
   userInput.addEventListener("keypress", function (e) {
     if (e.key === "Enter") sendMessage();
   });
 
-  // ---- Send Message ----
   async function sendMessage() {
     const userMessage = userInput.value.trim();
     if (!userMessage) return;
@@ -68,7 +73,7 @@ window.onload = function () {
       const response = await fetch(backendURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({ message: userMessage, username: userName }), // send username too
       });
 
       const data = await response.json();
@@ -79,7 +84,6 @@ window.onload = function () {
     }
   }
 
-  // ---- Add Message ----
   function appendMessage(sender, text) {
     const msgDiv = document.createElement("div");
     msgDiv.style.margin = "12px 0";
@@ -91,7 +95,6 @@ window.onload = function () {
     chatBox.scrollTop = chatBox.scrollHeight;
   }
 
-  // ---- Replace Bot Placeholder ----
   function replaceLastMessage(sender, text) {
     const messages = chatBox.querySelectorAll("div");
     const lastMsg = messages[messages.length - 1];
@@ -137,6 +140,7 @@ window.onload = function () {
   }
 };
 </script>
+
 
 
 
