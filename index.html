@@ -42,5 +42,101 @@
   </div>
 </div>
 
+<script>
+window.onload = function () {
+  const chatBox = document.getElementById("chat-box");
+  const sendBtn = document.getElementById("send-btn");
+  const userInput = document.getElementById("user-input");
+  const backendURL = "https://gemini-backend-58wg.onrender.com/chat"; // your backend
+
+  // ---- Event Listeners ----
+  sendBtn.addEventListener("click", sendMessage);
+  userInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") sendMessage();
+  });
+
+  // ---- Send Message ----
+  async function sendMessage() {
+    const userMessage = userInput.value.trim();
+    if (!userMessage) return;
+
+    appendMessage("user", userMessage);
+    userInput.value = "";
+    appendMessage("bot", "⏳ Searching the archives...");
+
+    try {
+      const response = await fetch(backendURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      const data = await response.json();
+      const botReply = data.reply || "📚 The shelves seem quiet for now.";
+      replaceLastMessage("bot", formatText(botReply));
+    } catch (error) {
+      replaceLastMessage("bot", "⚠️ Connection to the archives failed.");
+    }
+  }
+
+  // ---- Add Message ----
+  function appendMessage(sender, text) {
+    const msgDiv = document.createElement("div");
+    msgDiv.style.margin = "12px 0";
+    msgDiv.innerHTML =
+      sender === "user"
+        ? `<div style="background:#00bfa6;color:#fff;padding:12px 16px;border-radius:10px;max-width:80%;margin-left:auto;">${text}</div>`
+        : `<div style="background:#222;color:#ddd;padding:12px 16px;border-radius:10px;max-width:90%;white-space:pre-line;">${text}</div>`;
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // ---- Replace Bot Placeholder ----
+  function replaceLastMessage(sender, text) {
+    const messages = chatBox.querySelectorAll("div");
+    const lastMsg = messages[messages.length - 1];
+    lastMsg.innerHTML =
+      sender === "bot"
+        ? `<div style="background:#222;color:#ddd;padding:12px 16px;border-radius:10px;max-width:90%;white-space:pre-line;">${text}</div>`
+        : `<div style="background:#00bfa6;color:#fff;padding:12px 16px;border-radius:10px;max-width:80%;margin-left:auto;">${text}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // ---- Format Output ----
+  function formatText(text) {
+    return text
+      .replace(/\$/g, "")
+      .replace(/\\left|\\right/g, "")
+      .replace(/\\\\/g, "<br>")
+      .replace(/\\times/g, "×")
+      .replace(/\\div/g, "÷")
+      .replace(/\\cdot/g, "·")
+      .replace(/\\pm/g, "±")
+      .replace(/\\pi/g, "π")
+      .replace(/\\infty/g, "∞")
+      .replace(/\\le/g, "≤")
+      .replace(/\\ge/g, "≥")
+      .replace(/\\neq/g, "≠")
+      .replace(/\\approx/g, "≈")
+      .replace(/\\in/g, "∈")
+      .replace(/\\xi/g, "ξ")
+      .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, "($1 ÷ $2)")
+      .replace(/\\sqrt\{([^}]+)\}/g, "√($1)")
+      .replace(/\\sum_\{([^}]+)\}\^\{([^}]+)\}/g, "Σ($1→$2)")
+      .replace(/\\begin\{pmatrix\}/g, "[")
+      .replace(/\\end\{pmatrix\}/g, "]")
+      .replace(/&/g, "  ")
+      .replace(/\^\{([^}]+)\}/g, "<sup>$1</sup>")
+      .replace(/\^([0-9a-zA-Z])/g, "<sup>$1</sup>")
+      .replace(/_\{([^}]+)\}/g, "<sub>$1</sub>")
+      .replace(/_([0-9a-zA-Z])/g, "<sub>$1</sub>")
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n\s*[-•]\s*/g, "<br>• ")
+      .replace(/\n{2,}/g, "<br><br>")
+      .replace(/\n/g, "<br>");
+  }
+};
+</script>
+
 
 
