@@ -1,20 +1,20 @@
 <div id="chat-wrapper" style="
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100vw;
-  height: 100vh;
+  position: relative;
+  z-index: 1; /* ensures it's below the header */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   background: #0b0b0b;
   color: #f0f0f0;
+  border-radius: 0;
+  padding: 200px 5vw 40px 5vw; /* pushes content below header */
   font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   box-sizing: border-box;
-  padding: 120px 5vw 40px 5vw; /* space for header + bottom input bar */
-  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.4);
 ">
+
   <h2 style="color: #00bfa6; font-weight: 700; font-size: 2rem; margin-bottom: 15px;">
     QUOKKA The EternaL Archives
   </h2>
@@ -163,3 +163,4 @@
   }
 })();
 </script>
+
