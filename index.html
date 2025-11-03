@@ -1,0 +1,60 @@
+<div id="chat-wrapper" style="
+  width: 100vw;
+  height: calc(100vh - 130px); /* fills screen below header */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #0b0b0b;
+  color: #f0f0f0;
+  border-radius: 0;
+  padding: 40px 5vw 30px 5vw;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+">
+  <h2 style="text-align: center; margin-bottom: 25px; color: #00bfa6; font-weight: 700; font-size: 2rem;">
+    QUOKKA The EternaL Archives
+  </h2>
+
+  <div id="chat-box" style="
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #222;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #000;
+    width: 95%;
+    max-width: 1300px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE & Edge */
+  "></div>
+
+  <style>
+    #chat-box::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+
+  <div style="
+    display: flex;
+    gap: 12px;
+    max-width: 1300px;
+    width: 95%;
+    margin: 0 auto;
+  ">
+    <input id="user-input" type="text" placeholder="Type your question..."
+      style="flex: 1; padding: 14px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; font-size: 1rem;">
+    <button id="send-btn"
+      style="padding: 14px 24px; border-radius: 10px; background: #00bfa6; border: none; color: white; cursor: pointer; font-size: 1rem; font-weight: 600;">
+      Send
+    </button>
+  </div>
+</div>
